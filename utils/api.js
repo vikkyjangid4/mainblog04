@@ -163,11 +163,17 @@ export const utils = {
   getImageUrl: (imagePath) => {
     if (!imagePath) return '';
     if (imagePath.startsWith('http')) return imagePath;
-    // Handle both full paths and just filenames
-    if (imagePath.startsWith('/uploads/')) {
-      return `${BASE_URL}${imagePath}`;
+    
+    // Remove leading slash if present
+    const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
+    
+    // If already starts with uploads/, just prepend BASE_URL
+    if (cleanPath.startsWith('uploads/')) {
+      return `${BASE_URL}/${cleanPath}`;
     }
-    return `${BASE_URL}/uploads/${imagePath.replace(/^.*[\/]/, '')}`;
+    
+    // Otherwise prepend uploads/
+    return `${BASE_URL}/uploads/${cleanPath}`;
   },
 
   // Format date

@@ -124,37 +124,26 @@ function uploadFile($file, $subfolder = '') {
     return false;
 }
 
-// Helper function to convert relative image paths to full URLs
+// Helper function to get relative image paths from database
+// Returns ONLY the relative path (uploads/subfolder/filename.ext)
+// Frontend will handle URL construction based on environment
 function getFullImageUrl($imagePath) {
     if (!$imagePath) {
         return null;
     }
     
-    // If it's already a full URL, return as-is (backward compatibility)
+    // If it's already a full URL, extract just the relative path
     if (strpos($imagePath, 'http://') === 0 || strpos($imagePath, 'https://') === 0) {
-        return $imagePath;
+        // Extract the path after domain: https://boganto.com/uploads/file.jpg -> uploads/file.jpg
+        $imagePath = preg_replace('/^https?:\/\/[^\/]+\//', '', $imagePath);
     }
     
-    // Determine the appropriate base URL
-    $baseUrl = ($_SERVER['HTTP_HOST'] === 'localhost:8000')
-        ? 'http://localhost:8000'
-        : 'https://boganto.com';
-    
-    // Remove leading slash if present (normalize to relative path)
+    // Remove leading slash if present
     $imagePath = ltrim($imagePath, '/');
     
-    // Handle relative paths (uploads/... or uploads/subfolder/...)
-    if (strpos($imagePath, 'uploads/') === 0) {
-        return $baseUrl . '/' . $imagePath;
-    }
-    
-    // If it's just a filename without path, assume it's in uploads root
-    if (strpos($imagePath, '/') === false) {
-        return $baseUrl . '/uploads/' . $imagePath;
-    }
-    
-    // Default: prepend baseUrl
-    return $baseUrl . '/' . $imagePath;
+    // Return relative path only (no domain)
+    // Frontend will prepend BASE_URL as needed
+    return $imagePath ?: null;
 }
 
 // Helper function to clean image path - removes domain prefix if present
