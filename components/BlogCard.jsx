@@ -9,6 +9,8 @@ const DEFAULT_IMAGES = {
 }
 
 const BlogCard = ({ blog, featured = false }) => {
+  // Clean the slug to prevent double /blog/ prefix
+  const cleanSlug = utils.cleanSlug(blog.slug);
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 transform hover:-translate-y-1">
@@ -69,7 +71,7 @@ const BlogCard = ({ blog, featured = false }) => {
         <h3 className={`font-bold text-navy-800 mb-3 leading-tight group-hover:text-primary-600 transition-colors duration-300 line-clamp-2 ${
           featured ? 'text-xl' : 'text-lg'
         }`}>
-          <Link href={`/blog/${blog.slug}`}>
+          <Link href={`/blog/${cleanSlug}`}>
             {blog.title}
           </Link>
         </h3>
@@ -81,7 +83,7 @@ const BlogCard = ({ blog, featured = false }) => {
 
         {/* Read More Link */}
         <Link
-          href={`/blog/${blog.slug}`}
+          href={`/blog/${cleanSlug}`}
           className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group/link transition-colors duration-200"
         >
           {featured ? 'Read Article' : 'Continue Reading'}

@@ -26,7 +26,10 @@ import { DEFAULT_IMAGES } from "../../utils/constants";
 
 // Use SSR for blog posts to avoid build issues
 export async function getServerSideProps({ params }) {
-  const { slug } = params;
+  let { slug } = params;
+  
+  // Clean the slug - remove any /blog/ prefix that might have been added
+  slug = slug.replace(/^\/blog\//, '').replace(/^blog\//, '');
 
   try {
     const response = await blogAPI.getBlogBySlug(slug);
@@ -102,7 +105,9 @@ function BlogDetailPage({
       setLoading(true);
       setError(null);
 
-      const response = await blogAPI.getBlogBySlug(slug);
+      // Clean the slug - remove any /blog/ prefix
+      const cleanSlug = slug ? slug.replace(/^\/blog\//, '').replace(/^blog\//, '') : slug;
+      const response = await blogAPI.getBlogBySlug(cleanSlug);
 
       setBlog(response.blog);
 
@@ -713,8 +718,8 @@ const shareTitle = blog ? blog.title : "";
                         setBlog(null);
                         setRelatedBooks([]);
                         setRelatedArticles([]);
-                        // Ensure no double /blog/blog/ in URL
-                        const cleanSlug = article.slug.replace(/^\/blog\//, '');
+                        // Clean any double /blog/ prefix in slug
+                        const cleanSlug = article.slug.replace(/^\/blog\//, '').replace(/^blog\//, '');
                         router.push(`/blog/${cleanSlug}`);
                       }}
                     >

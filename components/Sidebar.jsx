@@ -55,6 +55,7 @@ const Sidebar = () => {
   const SidebarBlogItem = ({ blog, isPopular = false }) => {
     const getImageUrl = (img) =>
       img ? `${BASE_URL}/uploads/${img.replace(/^.*[\\/]/, '')}` : ''
+    const cleanSlug = utils.cleanSlug(blog.slug);
     return (
        <div className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200">
         <div className="flex-shrink-0">
@@ -75,7 +76,7 @@ const Sidebar = () => {
         </div>
         <div className="flex-1 min-w-0">
           <h4 className="text-sm font-semibold text-navy-800 leading-tight mb-1 hover:text-primary-600 transition-colors duration-200">
-            <Link href={`/blog/${blog.slug}`} className="line-clamp-2">
+            <Link href={`/blog/${cleanSlug}`} className="line-clamp-2">
               {blog.title}
             </Link>
           </h4>

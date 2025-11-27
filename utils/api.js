@@ -197,6 +197,41 @@ export const utils = {
       .replace(/[^a-z0-9 -]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
+  },
+
+  // Get blog URL - handles both localhost and production paths
+  getBlogUrl: (slug) => {
+    // Remove any leading /blog/ if present in slug
+    const cleanSlug = slug.replace(/^\/blog\//, '').replace(/^blog\//, '');
+    
+    // In production on boganto.com, blog is at /blog
+    // In localhost, blog is at root /
+    if (typeof window !== 'undefined') {
+      // Client-side: check if we're on localhost
+      const isLocalhost = window.location.port === '5173' || 
+                         window.location.hostname === 'localhost';
+      return isLocalhost ? `/blog/${cleanSlug}` : `/blog/${cleanSlug}`;
+    }
+    
+    // Server-side: always use /blog/ prefix
+    return `/blog/${cleanSlug}`;
+  },
+
+  // Get category URL
+  getCategoryUrl: (slug) => {
+    const cleanSlug = slug.replace(/^\/category\//, '').replace(/^category\//, '');
+    return `/category/${cleanSlug}`;
+  },
+
+  // Get tag URL
+  getTagUrl: (tag) => {
+    return `/tag/${encodeURIComponent(tag.trim())}`;
+  },
+
+  // Clean slug - removes any /blog/ or blog/ prefix
+  cleanSlug: (slug) => {
+    if (!slug) return slug;
+    return slug.replace(/^\/blog\//, '').replace(/^blog\//, '');
   }
 }
 

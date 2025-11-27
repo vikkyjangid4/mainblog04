@@ -209,7 +209,7 @@ const HomePage = ({ initialData, banners: initialBanners }) => {
                             <div className="flex-1 min-w-0">
                               <h4 className="text-sm font-semibold text-navy-800 leading-tight mb-1 hover:text-primary-600 transition-colors duration-200">
                                 <Link
-                                  href={`/blog/${blog.slug}`}
+                                  href={`/blog/${blog.slug.replace(/^\/blog\//, '').replace(/^blog\//, '')}`}
                                   className="line-clamp-2"
                                 >
                                   {blog.title}
@@ -340,7 +340,7 @@ const HomePage = ({ initialData, banners: initialBanners }) => {
 
                                     {/* Title */}
                                     <h3 className="font-bold text-xl text-navy-800 mb-3 leading-tight group-hover:text-primary-600 transition-colors duration-300 line-clamp-2">
-                                      <Link href={`/blog/${blog.slug}`}>
+                                      <Link href={`/blog/${blog.slug.replace(/^\/blog\//, '').replace(/^blog\//, '')}`}>
                                         {blog.title}
                                       </Link>
                                     </h3>
@@ -356,7 +356,7 @@ const HomePage = ({ initialData, banners: initialBanners }) => {
 
                                     {/* Read More Link */}
                                     <Link
-                                      href={`/blog/${blog.slug}`}
+                                      href={`/blog/${blog.slug.replace(/^\/blog\//, '').replace(/^blog\//, '')}`}
                                       className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group/link transition-colors duration-200"
                                     >
                                       Read Article
@@ -548,7 +548,7 @@ const HomePage = ({ initialData, banners: initialBanners }) => {
 
                                   {/* Title */}
                                   <h3 className="font-bold text-lg text-navy-800 mb-3 leading-tight group-hover:text-primary-600 transition-colors duration-300 line-clamp-2">
-                                    <Link href={`/blog/${blog.slug}`}>
+                                    <Link href={`/blog/${blog.slug.replace(/^\/blog\//, '').replace(/^blog\//, '')}`}>
                                       {blog.title}
                                     </Link>
                                   </h3>
@@ -563,7 +563,7 @@ const HomePage = ({ initialData, banners: initialBanners }) => {
 
                                   {/* Read More Link */}
                                   <Link
-                                    href={`/blog/${blog.slug}`}
+                                    href={`/blog/${blog.slug.replace(/^\/blog\//, '').replace(/^blog\//, '')}`}
                                     className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold text-sm group/link transition-colors duration-200"
                                   >
                                     Continue Reading
